@@ -6,13 +6,13 @@
         <span>小爱<i>ADMIN</i></span>
       </div>
       <el-form class="login-form" ref="ruleForm" :model="loginForm" size="mini" :rules="rules">
-        <el-form-item class="login-item" prop="username">
-          <span class="user-icon iconfont">&#xe610;</span>
+        <el-form-item prop="username">
+          <span class="iconfont">&#xe610;</span>
           <el-input class="login-input" placeholder="用户名" v-model="loginForm.username"></el-input>
         </el-form-item>
-        <el-form-item class="login-item" prop="password">
+        <el-form-item prop="password">
           <span class="iconfont">&#xe65e;</span>
-          <el-input class="login-input" placeholder="密码" v-model="loginForm.password"></el-input>
+          <el-input class="login-input" type="password" placeholder="密码" v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item>
           <el-button class="submit-button" type="primary" @click="submitForm('ruleForm')">SIGN IN</el-button>
@@ -46,7 +46,20 @@ export default {
 					password: [
 						{ required: true, message: '请输入密码', trigger: 'blur' }
 					]
-				}
+        }
+    }
+  },
+  methods: {
+    submitForm (ruleForm) {
+      this.$refs[ruleForm].validate( (valid) =>{
+        if (valid) {
+          this.$message.success("登陆成功")
+          this.$router.push('/home')
+        }else {
+          this.$message.error("请输入账号和密码")
+          return false
+        }
+      })
     }
   }
 }
@@ -82,21 +95,13 @@ export default {
       .login-form >>> .el-input__inner
         padding-left:30px !important
         height:36px !important 
-      .login-form >>> .el-button--primary
-          background-color : #FF7C1A
-          border-color: #FF7C1A     
-      .login-form 
-        .login-item      
-          .user-icon
-            position : absolute
-            top : 50%
-            transform : translateY(-50%)
-            left : 10px
-				    font-size : 18px
+      .login-form                 
         .submit-button
           width : 100% 
           padding : 13px 0
           font-size: 16px 
+          background-color : #FF7C1A
+          border-color: #FF7C1A
         .tiparea  
           padding : 10px 0
           font-size : 12px
@@ -104,4 +109,11 @@ export default {
           color : #4cbb15 
           .tip
             margin-left : 54px 
+        .iconfont
+           position : absolute
+           top : 50%
+           transform : translateY(-50%)
+           left : 10px
+           z-index : 2
+				   font-size : 18px         
 </style>
